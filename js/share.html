@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="gb2312" />
+    <title>无标题文档</title>
+    <style>
+        body{margin:0; padding:0; font:12px/1.5 arial; height:2000px;}
+        #jb51{width:100px; height:200px; line-height:200px;
+            text-align:center; border:1p solid #ccc;
+            background:#f5f5f5; position:absolute; left:-100px; top:0;}
+        #jb51_tit{position:absolute; right:-20px; top:60px;
+            width:20px; height:60px; padding:10px 0;
+            background:#06c; text-align:center;
+            line-height:18px; color:#fff;}
+    </style>
+    <script>
+        window.onload = function(){
+            var jb51 = document.getElementById("jb51");
+            jb51.onmouseover = function(){
+                startrun(jb51,0,"left")
+            }
+            jb51.onmouseout = function(){
+                startrun(jb51,-100,"left")
+            }
+            window.onscroll = window.onresize = function(){
+                var scrtop=document.documentElement.scrollTop||document.body.scrollTop;
+                var height=document.documentElement.clientHeight||document.body.clientHeight;
+                var top = scrtop + (height - jb51.offsetHeight)/2;
+                top = parseInt(top);
+                startrun(jb51,top,"top")
+            }
+        }
+        var timer = null
+        function startrun(obj,target,direction){
+            clearInterval(timer);
+            timer = setInterval(function(){
+                var speed = 0;
+                if(direction == "left"){
+                    speed = (target-obj.offsetLeft)/8;
+                    speed = speed>0?Math.ceil(speed):Math.floor(speed);
+                    if(obj.offsetLeft == target){
+                        clearInterval(timer);
+                    }else{
+                        obj.style.left = obj.offsetLeft + speed + "px";
+                    }
+                }
+                if(direction == "top"){
+                    speed = (target-obj.offsetTop)/8;
+                    speed = speed>0?Math.ceil(speed):Math.floor(speed);
+                    if(obj.offsetTop == target){
+                        clearInterval(timer);
+                    }else{
+                        obj.style.top = obj.offsetTop + speed + "px";
+                    }
+                    document.title = obj.offsetTop + ',' + target + ',' +speed;
+                }
+            },30)
+        }
+    </script>
+</head>
+<body>
+<div id="jb51">
+    分享到内容
+    <span id="jb51_tit">分享到</span>
+</div>
+</body>
+</html>
